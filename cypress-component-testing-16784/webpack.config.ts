@@ -7,6 +7,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
+const isTesting = process.env.NODE_ENV === 'cy-testing';
 
 const config = {
   mode: isDevelopment ? 'development' : 'production',
@@ -37,7 +38,7 @@ const config = {
           {
             loader: 'babel-loader',
             options: {
-              plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
+              plugins: [isDevelopment && !isTesting && require.resolve('react-refresh/babel')].filter(Boolean),
             },
           },
         ],
@@ -149,7 +150,7 @@ const config = {
       template: './public/index.html',
       publicPath: '/',
     }),
-    isDevelopment && new ReactRefreshWebpackPlugin(),
+    isDevelopment && !isTesting && new ReactRefreshWebpackPlugin(),
   ].filter(Boolean),
 };
 

@@ -12,6 +12,8 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
+process.env.NODE_ENV = 'cy-testing';
+
 /**
  * @type {Cypress.PluginConfig}
  */
@@ -25,4 +27,6 @@ module.exports = (on, config) => {
 
     on('dev-server:start', (options) => startDevServer({ options, webpackConfig }));
   }
+
+  return config;
 };
